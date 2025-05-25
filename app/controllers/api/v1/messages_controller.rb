@@ -5,30 +5,30 @@ module Api
         message = Message.new(message_params)
 
         if message.save
-          ActionCable.server.broadcast("chat_room_#{message.room_id}", {
+        ActionCable.server.broadcast("chat_room_#{message.room_id}", {
             id: message.id,
             content: message.content,
             user_id: message.user_id,
-            user_nickname: message.user.nickname,
+            user_nickname: message.user&.nickname,
             created_at: message.created_at.strftime("%H:%M")
-          })
+        })
 
-          render json: {
+        render json: {
             success: true,
             message: "Message sent successfully",
             data: {
-              id: message.id,
-              content: message.content,
-              user_id: message.user_id,
-              user_nickname: message.user.nickname,
-              created_at: message.created_at.strftime("%H:%M")
+            id: message.id,
+            content: message.content,
+            user_id: message.user_id,
+            user_nickname: message.user&.nickname,
+            created_at: message.created_at.strftime("%H:%M")
             }
-          }, status: :created
+        }, status: :created
         else
-          render json: {
+        render json: {
             success: false,
             error: message.errors.full_messages
-          }, status: :unprocessable_entity
+        }, status: :unprocessable_entity
         end
       end
 
