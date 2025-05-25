@@ -1,8 +1,6 @@
 module Api
     module V1
         class RoomUsersController < ApplicationController
-            # aksi-aksi controller di sini
-        class RoomUsersController < ApplicationController
             def create
             room = Room.find(params[:room_id])
             user_ids = params[:user_ids] # array of UUID
@@ -17,5 +15,4 @@ module Api
             end
         end
     end
-  end
 end
