@@ -1,0 +1,11 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  room: one
+  user: one
+  joined_at: 2025-05-23 22:58:48
+
+two:
+  room: two
+  user: two
+  joined_at: 2025-05-23 22:58:48
