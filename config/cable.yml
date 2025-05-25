@@ -15,6 +15,6 @@ production:
   adapter: async 
   connects_to:
     database:
-      writing: redis
+      writing: cable
   polling_interval: 0.1.seconds
   message_retention: 1.day
