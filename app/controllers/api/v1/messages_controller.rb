@@ -2,33 +2,45 @@ module Api
   module V1
     class MessagesController < ApplicationController
       def create
-        message = Message.new(message_params)
+        begin
+          message = Message.new(message_params)
 
-        if message.save
-        ActionCable.server.broadcast("chat_room_#{message.room_id}", {
-            id: message.id,
-            content: message.content,
-            user_id: message.user_id,
-            user_nickname: message.user&.nickname,
-            created_at: message.created_at.strftime("%H:%M")
-        })
+          if message.save
+            ActionCable.server.broadcast("chat_room_#{message.room_id}", {
+              id: message.id,
+              content: message.content,
+              user_id: message.user_id,
+              user_nickname: message.user&.nickname,
+              created_at: message.created_at.strftime("%H:%M")
+            })
 
-        render json: {
-            success: true,
-            message: "Message sent successfully",
-            data: {
-            id: message.id,
-            content: message.content,
-            user_id: message.user_id,
-            user_nickname: message.user&.nickname,
-            created_at: message.created_at.strftime("%H:%M")
-            }
-        }, status: :created
-        else
-        render json: {
+            render json: {
+              success: true,
+              message: "Message sent successfully",
+              data: {
+                id: message.id,
+                content: message.content,
+                user_id: message.user_id,
+                user_nickname: message.user&.nickname,
+                created_at: message.created_at.strftime("%H:%M")
+              }
+            }, status: :created
+          else
+            render json: {
+              success: false,
+              error: message.errors.full_messages
+            }, status: :unprocessable_entity
+          end
+        rescue => e
+          # Log error ke server dan tampilkan error sebagai JSON (untuk debugging)
+          Rails.logger.error("Error in MessagesController#create: #{e.message}")
+          Rails.logger.error(e.backtrace.join("\n"))
+
+          render json: {
             success: false,
-            error: message.errors.full_messages
-        }, status: :unprocessable_entity
+            error: "Internal Server Error",
+            detail: e.message
+          }, status: :internal_server_error
         end
       end
 
