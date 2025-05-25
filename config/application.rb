@@ -16,6 +16,14 @@ module ChatAppBackend
     # Common ones are `templates`, `generators`, or `middleware`, for example.
     config.autoload_lib(ignore: %w[assets tasks])
 
+    class Application < Rails::Application
+      # Tambahkan ini untuk WebSocket support
+      config.force_ssl = false # Set true jika mau paksa HTTPS
+      
+      # Untuk ActionCable
+      config.action_cable.mount_path = '/cable'
+    end
+
     # Configuration for the application, engines, and railties goes here.
     #
     # These settings can be overridden in specific environments using the files

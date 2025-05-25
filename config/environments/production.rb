@@ -57,21 +57,57 @@ Rails.application.configure do
   # Set host to be used by links generated in mailer templates.
   config.action_mailer.default_url_options = { host: "example.com" }
 
-  # Specify outgoing SMTP server. Remember to add smtp/* credentials via rails credentials:edit.
-  # config.action_mailer.smtp_settings = {
-  #   user_name: Rails.application.credentials.dig(:smtp, :user_name),
-  #   password: Rails.application.credentials.dig(:smtp, :password),
-  #   address: "smtp.example.com",
-  #   port: 587,
-  #   authentication: :plain
-  # }
-
-   config.action_cable.mount_path = '/cable'
-   config.action_cable.url = 'ws://your-railway-url.railway.app/cable' # atau wss:// untuk SSL
-   config.action_cable.allowed_request_origins = [
-      'https://your-railway-url.railway.app',
-      'http://your-railway-url.railway.app'
-   ]
+  # ===== ACTIONCABLE/WEBSOCKET CONFIGURATION =====
+  
+  # Mount ActionCable
+  config.action_cable.mount_path = '/cable'
+  
+  # Allowed request origins - PENTING untuk Railway
+  config.action_cable.allowed_request_origins = [
+    /https:\/\/.*\.railway\.app/,
+    /http:\/\/.*\.railway\.app/,
+    /https:\/\/.*\.up\.railway\.app/,
+    /http:\/\/.*\.up\.railway\.app/,
+    # Tambahkan domain custom jika ada
+    # "https://yourdomain.com"
+  ]
+  
+  # URL untuk ActionCable - gunakan railway domain
+  config.action_cable.url = "wss://#{ENV['RAILWAY_PUBLIC_DOMAIN'] || 'rubychatappbe-production.up.railway.app'}/cable"
+  
+  # Database adapter untuk ActionCable
+  config.action_cable.adapter = :postgresql
+  
+  # TAMBAHAN KONFIGURASI ACTIONCABLE:
+  
+  # Logger untuk ActionCable
+  config.action_cable.logger = Rails.logger
+  
+  # Worker pool size (optional, default is 4)
+  # config.action_cable.worker_pool_size = 4
+  
+  # Disable request forgery protection untuk testing (hapus setelah testing berhasil)
+  # config.action_cable.disable_request_forgery_protection = true
+  
+  # Connection timeout
+  # config.action_cable.connection_class = -> { ApplicationCable::Connection }
+  
+  # ===== HOST AUTHORIZATION =====
+  
+  # Enable DNS rebinding protection and other `Host` header attacks.
+  config.hosts = [
+    /.*\.railway\.app/,        # Railway domains
+    /.*\.up\.railway\.app/,    # Railway up domains
+    "rubychatappbe-production.up.railway.app", # Domain spesifik Anda
+    # "yourdomain.com",        # Custom domain jika ada
+  ]
+  
+  # Skip DNS rebinding protection for health check dan cable
+  config.host_authorization = { 
+    exclude: ->(request) { 
+      request.path == "/up" || request.path == "/cable" 
+    } 
+  }
 
   # Enable locale fallbacks for I18n (makes lookups for any locale fall back to
   # the I18n.default_locale when a translation cannot be found).
@@ -82,13 +118,4 @@ Rails.application.configure do
 
   # Only use :id for inspections in production.
   config.active_record.attributes_for_inspect = [ :id ]
-
-  # Enable DNS rebinding protection and other `Host` header attacks.
-  # config.hosts = [
-  #   "example.com",     # Allow requests from example.com
-  #   /.*\.example\.com/ # Allow requests from subdomains like `www.example.com`
-  # ]
-  #
-  # Skip DNS rebinding protection for the default health check endpoint.
-  # config.host_authorization = { exclude: ->(request) { request.path == "/up" } }
 end
