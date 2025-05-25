@@ -66,6 +66,13 @@ Rails.application.configure do
   #   authentication: :plain
   # }
 
+   config.action_cable.mount_path = '/cable'
+   config.action_cable.url = 'ws://your-railway-url.railway.app/cable' # atau wss:// untuk SSL
+   config.action_cable.allowed_request_origins = [
+      'https://your-railway-url.railway.app',
+      'http://your-railway-url.railway.app'
+   ]
+
   # Enable locale fallbacks for I18n (makes lookups for any locale fall back to
   # the I18n.default_locale when a translation cannot be found).
   config.i18n.fallbacks = true
