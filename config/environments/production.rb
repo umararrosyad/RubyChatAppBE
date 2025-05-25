@@ -76,7 +76,7 @@ Rails.application.configure do
   config.action_cable.url = "wss://#{ENV['RAILWAY_PUBLIC_DOMAIN'] || 'rubychatappbe-production.up.railway.app'}/cable"
   
   # Database adapter untuk ActionCable
-  config.action_cable.adapter = :postgresql
+  # config.action_cable.adapter = :postgresql
   
   # TAMBAHAN KONFIGURASI ACTIONCABLE:
   
