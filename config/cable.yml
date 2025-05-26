@@ -12,7 +12,8 @@ test:
   adapter: test
 
 production:
-  adapter: async 
+  adapter: redis
+  url: <%= ENV['REDIS_URL'] %> 
   connects_to:
     database:
       writing: cable
