@@ -1,0 +1,9 @@
+:8080 {
+  reverse_proxy /cable localhost:3000 {
+    transport http {
+      versions h2c 1.1
+    }
+  }
+  
+  reverse_proxy localhost:3000
+}

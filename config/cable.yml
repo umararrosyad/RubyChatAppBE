@@ -14,8 +14,7 @@ test:
 production:
   adapter: redis
   url: <%= ENV['REDIS_URL'] %> 
-  connects_to:
-    database:
-      writing: cable
-  polling_interval: 0.1.seconds
-  message_retention: 1.day
+  cable:
+    url: "wss://rubychatappbe-production.up.railway.app/cable"
+  allowed_request_origins:
+    - https://vue-chat-app-sft1.vercel.app

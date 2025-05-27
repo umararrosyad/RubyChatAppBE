@@ -1,1 +1,1 @@
-web: bundle exec puma -C config/puma.rb
+web: sh -c "bundle exec rails s -p 3000 & caddy run --config /path/to/Caddyfile"
