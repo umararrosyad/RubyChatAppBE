@@ -4,10 +4,11 @@ module ApplicationCable
     def connect
       # Simply accept connection without logging for now
       # This should fix the logger error
+      Rails.logger.info "Client connected via WebSocket"
     end
-
+    
     def disconnect
-      # Connection closed
+      Rails.logger.info "Client disconnected via WebSocket"
     end
 
     private
