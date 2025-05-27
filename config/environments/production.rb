@@ -61,15 +61,14 @@ Rails.application.configure do
   
   # Mount ActionCable
   config.action_cable.mount_path = '/cable'
-  config.action_cable.url = "wss://#{ENV['RAILWAY_PUBLIC_DOMAIN']|| 'rubychatappbe-production.up.railway.app'}/cable"
+  config.action_cable.url = "wss://#{ENV['RAILWAY_PUBLIC_DOMAIN'] || 'rubychatappbe-production.up.railway.app'}/cable"
   config.action_cable.allowed_request_origins = [
     /https:\/\/.*\.railway\.app/,
     /http:\/\/.*\.railway\.app/,
     /https:\/\/.*\.up\.railway\.app/,
     /http:\/\/.*\.up\.railway\.app/,
-    'https://vue-chat-app-sft1.vercel.app'  # domain frontend-mu
+    'https://vue-chat-app-sft1.vercel.app'
   ]
-  config.action_cable.adapter = :redis
   config.action_cable.disable_request_forgery_protection = true
   
   # Database adapter untuk ActionCable
