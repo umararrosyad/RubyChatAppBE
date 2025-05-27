@@ -1,17 +1,13 @@
+
 module ApplicationCable
   class Connection < ActionCable::Connection::Base
     def connect
-      # Log connection attempt (safe logging)
-      Rails.logger&.add_tags "ActionCable", request.remote_ip
-      
-      # Accept all connections for now (remove this after testing)
-      Rails.logger&.info "WebSocket connection established from #{request.remote_ip}"
-      Rails.logger&.info "Origin: #{request.headers['Origin']}"
-      Rails.logger&.info "Host: #{request.headers['Host']}"
+      # Simply accept connection without logging for now
+      # This should fix the logger error
     end
 
     def disconnect
-      Rails.logger&.info "WebSocket connection closed"
+      # Connection closed
     end
 
     private

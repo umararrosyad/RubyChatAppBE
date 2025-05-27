@@ -14,6 +14,7 @@ test:
 production:
   adapter: redis
   url: <%= ENV['REDIS_URL'] %> 
+  channel_prefix: myapp_production
   cable:
     url: "wss://rubychatappbe-production.up.railway.app/cable"
   allowed_request_origins:
