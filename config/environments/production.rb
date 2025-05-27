@@ -61,19 +61,16 @@ Rails.application.configure do
   
   # Mount ActionCable
   config.action_cable.mount_path = '/cable'
-  
-  # Allowed request origins - PENTING untuk Railway
+  config.action_cable.url = "wss://#{ENV['RAILWAY_PUBLIC_DOMAIN']|| 'rubychatappbe-production.up.railway.app'}/cable"
   config.action_cable.allowed_request_origins = [
     /https:\/\/.*\.railway\.app/,
     /http:\/\/.*\.railway\.app/,
     /https:\/\/.*\.up\.railway\.app/,
     /http:\/\/.*\.up\.railway\.app/,
-    # Tambahkan domain custom jika ada
-    # "https://yourdomain.com"
+    'https://vue-chat-app-sft1.vercel.app'  # domain frontend-mu
   ]
-  
-  # URL untuk ActionCable - gunakan railway domain
-  config.action_cable.url = "wss://#{ENV['RAILWAY_PUBLIC_DOMAIN'] || 'rubychatappbe-production.up.railway.app'}/cable"
+  config.action_cable.adapter = :redis
+  config.action_cable.disable_request_forgery_protection = true
   
   # Database adapter untuk ActionCable
   # config.action_cable.adapter = :postgresql
@@ -108,6 +105,10 @@ Rails.application.configure do
       request.path == "/up" || request.path == "/cable" 
     } 
   }
+
+  # config.action_cable.disable_request_forgery_protection = true
+  # config.action_cable.mount_path = '/cable'
+  # config.action_cable.allowed_request_origins = [ /http:\/\/.*/, /https:\/\/.*/ ]
 
   # Enable locale fallbacks for I18n (makes lookups for any locale fall back to
   # the I18n.default_locale when a translation cannot be found).
