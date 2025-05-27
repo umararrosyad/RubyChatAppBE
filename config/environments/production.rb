@@ -60,9 +60,9 @@ Rails.application.configure do
   # ===== ACTIONCABLE/WEBSOCKET CONFIGURATION =====
   
   # Mount ActionCable
-  config.action_cable.logger = Rails.logger
   config.logger = ActiveSupport::TaggedLogging.new(Logger.new(STDOUT))
-  config.action_cable.logger = config.logger
+  config.log_tags = [:request_id]
+  config.action_cable.logger = Rails.logger
   config.action_cable.mount_path = '/cable'
   config.action_cable.url = "wss://#{ENV['RAILWAY_PUBLIC_DOMAIN'] || 'rubychatappbe-production.up.railway.app'}/cable"
   config.action_cable.allowed_request_origins = [
