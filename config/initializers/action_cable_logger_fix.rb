@@ -2,8 +2,9 @@ module ActionCable
   module Connection
     class TaggedLoggerProxy
       def log(type, message)
-        return unless logger
-        logger.public_send(type, message)
+        logger_instance = @logger || Rails.logger
+        return unless logger_instance
+        logger_instance.public_send(type, message)
       end
     end
   end
