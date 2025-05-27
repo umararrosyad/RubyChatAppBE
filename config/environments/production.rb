@@ -63,6 +63,7 @@ Rails.application.configure do
   config.logger = ActiveSupport::TaggedLogging.new(Logger.new(STDOUT))
   config.log_tags = [:request_id]
   config.action_cable.logger = Rails.logger
+  ActionCable.server.config.logger = logger
   config.action_cable.mount_path = '/cable'
   config.action_cable.url = "wss://#{ENV['RAILWAY_PUBLIC_DOMAIN'] || 'rubychatappbe-production.up.railway.app'}/cable"
   config.action_cable.allowed_request_origins = [
