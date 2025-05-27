@@ -1,17 +1,17 @@
 module ApplicationCable
   class Connection < ActionCable::Connection::Base
     def connect
-      # Log connection attempt
-      logger.add_tags "ActionCable", request.remote_ip
+      # Log connection attempt (safe logging)
+      Rails.logger&.add_tags "ActionCable", request.remote_ip
       
       # Accept all connections for now (remove this after testing)
-      logger.info "WebSocket connection established from #{request.remote_ip}"
-      logger.info "Origin: #{request.headers['Origin']}"
-      logger.info "Host: #{request.headers['Host']}"
+      Rails.logger&.info "WebSocket connection established from #{request.remote_ip}"
+      Rails.logger&.info "Origin: #{request.headers['Origin']}"
+      Rails.logger&.info "Host: #{request.headers['Host']}"
     end
 
     def disconnect
-      logger.info "WebSocket connection closed"
+      Rails.logger&.info "WebSocket connection closed"
     end
 
     private
